@@ -1,0 +1,86 @@
+# 学术Agent全局配置
+
+# API配置
+apis:
+  openalex:
+    base_url: "https://api.openalex.org"
+    rate_limit: 10  # 每秒请求数
+    retry_times: 3
+    retry_delay: 1
+    timeout: 30
+    # OpenAlex是开放API，无需API Key
+    
+  scopus:
+    base_url: "https://api.elsevier.com/content"
+    api_key: "7f59af901d2d86f78a1fd60c1bf9426a"  # 请在实际使用时填写
+    rate_limit: 0.8  # 约50次/分钟
+    retry_times: 3
+    retry_delay: 2
+    timeout: 30
+    
+  sciencedirect:
+    base_url: "https://api.elsevier.com/content"
+    api_key: "7f59af901d2d86f78a1fd60c1bf9426a"  # 请在实际使用时填写
+    rate_limit: 0.5  # 约30次/分钟
+    retry_times: 3
+    retry_delay: 2
+    timeout: 30
+
+# LLM配置
+llm:
+  # 默认LLM提供商 (openai/anthropic/zhipu/aili)非必填项
+  default_provider: ""
+  
+  # OpenAI配置(可选)
+  openai:
+    api_key: ""  # 请填写您的OpenAI API Key
+    base_url: "https://api.openai.com/v1"
+    model: "gpt-4"
+    temperature: 0.7
+    max_tokens: 2000
+  
+  # Anthropic配置（可选）
+  anthropic:
+    api_key: ""  # 请填写您的Anthropic API Key
+    base_url: "https://api.anthropic.com/v1"
+    model: "claude-3-sonnet-20240229"
+    temperature: 0.7
+    max_tokens: 2000
+  
+  # 千问AI配置
+  zhipu:
+    api_key: "sk-DwBE5H6xxCV6I7i0q8v6rq3ZHauPuSq6fWVerxu7gJ9DmQoz"  # 请填写您的千问AI API Key
+    base_url: "https://newapi.3173721.xyz/v1/chat/completions"
+    model: "qwen3-max"
+    temperature: 0.7
+    max_tokens: 2000
+
+# 缓存配置
+cache:
+  enabled: true
+  backend: "file"  # 可选: file, redis
+  ttl: 3600  # 缓存时间（秒）
+  file_path: "./cache"  # 文件缓存路径
+  redis:
+    host: "localhost"
+    port: 6379
+    db: 0
+    password: ""
+
+# 日志配置
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "./logs/academic_agent.log"
+
+# 服务配置
+service:
+  # HTTP服务配置
+  http:
+    host: "0.0.0.0"
+    port: 8000
+    cors_enabled: true
+    docs_url: "/docs"
+  
+  # 默认适配器
+  default_adapter: "openalex"
